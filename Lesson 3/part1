@@ -1,0 +1,154 @@
+3. Move between directories
+
+
+A little of theory
+Ok, now it is time for another concept, but before we do that, let's create one more directory
+
+mkdir root
+
+We've created the root directory. now let's move to it
+
+cd root
+
+Please take a look where we are:
+
+pwd
+
+We have this structure: /root/root.
+
+Ok, now let's go back
+
+cd ..
+
+Now, let's do almost the same thing
+
+cd /root
+
+Where are we now?
+
+pwd
+
+What is the difference? Obviously, you noticed the / character. What all of it means?
+
+In Linux filesystems, the root, the "first point" is a root directory. This root directory is represented by /. Everything what is on the top level of the filesystem is in / directory.
+
+Let's take a look at the picture below.
+
+directories.png
+
+Let's suppose, I am in /home/user2/dir1 directory. If I want to go to /var/log/nginx directory, I can do it in several ways.
+
+cd ../../../var/log/nginx
+cd /var/log/nginx
+What is the difference? In the second version we are using the absolute path. We are referencing our journey through directories to the main, central point of the system - the root, /. When We place / on the beginning of the path it informs the system about our intention to use absolute path.
+
+In the first example we use relative path. It simply means we are navigating from the current position.
+
+Therefore, if we are in our home directory, which is root... Well, don't be confused. We are logged as root user. root user is the most powerful entity in the whole Linux system and it's home directory is /root. Other users have their home directories under /home. So, when you are in /root directory, it is totally different when you type cd /root than cd root.
+
+
+4. Come back home!
+Time to go home!
+Wherever we are in the Linux system, we have several ways to back home. Some says, all roads lead to Rome, in Linux it is almost true :)
+
+So, first, if you remember your home directory, use it
+
+cd /var/log
+pwd
+cd /root
+pwd
+
+but this is not funny way of doing it.
+
+There is a built-in variable called $HOME. This variable contains the path to the current user home directory.
+
+cd /var/log
+pwd
+cd $HOME
+pwd
+
+By the way, we can display the value of this variable, using echo $HOME
+But $HOME is long. We can use something shorter - ~
+
+cd /var/log
+pwd
+cd ~
+pwd
+
+And finally, the shortest version...
+
+cd /var/log
+pwd
+cd
+pwd
+
+Yes, just cd is enough to come back to home directory.
+
+5. Delete directories
+Delete directories
+Let's move to the home directory. cd
+
+pwd
+
+ls
+
+First, we will remove the the root directory.
+
+rmdir root
+
+Now, let's remove all testdir directories.
+
+rmdir testdir{1..10}
+
+Yes, we can use the same syntax like the one when we created these directories :)
+
+Ok, now let's remove parentdir directory.
+
+rmdir parentdir
+
+Hmm. We cannot. The directory is not empty. Ok, we have a way. Do you remember the -p argument of mkdir?
+
+rmdir -p parentdir
+
+Nope.
+
+We have some directory called maindir, let's look inside
+
+ls maindir
+
+So, we can remove parent directory only when it is empty. This will work then
+
+rmdir -p maindir/childdir
+
+In order to remove the whole parentdir we need to do different command, rm. This command works for files. And as everything in Linux is a file, it should work for directories too.
+
+rm parentdir
+
+but... it is not.
+
+Ok, let's... do this
+
+rmdir parentdir/*
+rmdir parentdir
+
+Hmm... If you feel it is not like the smart Linux should operate...
+
+You're right.
+
+we have anotherparentdir with the same structure. Let's make it right. And risky.
+
+rm -rf anotherparentdir
+
+Wow, that was it! But.. It didn't work wit rm earlier.
+
+Now we used some arguments
+
+-r means go recursively through directories (and treat everything as file)
+-f - force. Another words, do not ask, assume the user knows what he is doing.
+And that is why this is risky command.
+
+Try
+
+rm -rf /
+
+and read the notification. Nowadays Linux try to be careful with its users and this command, do you understand why?
